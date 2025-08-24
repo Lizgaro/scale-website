@@ -1,0 +1,2956 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCALE — Экосистема масштабирования будущего</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          /* Primitive Color Tokens */
+          --color-white: rgba(255, 255, 255, 1);
+          --color-black: rgba(0, 0, 0, 1);
+          --color-cream-50: rgba(252, 252, 249, 1);
+          --color-cream-100: rgba(255, 255, 253, 1);
+          --color-gray-200: rgba(245, 245, 245, 1);
+          --color-gray-300: rgba(167, 169, 169, 1);
+          --color-gray-400: rgba(119, 124, 124, 1);
+          --color-slate-500: rgba(98, 108, 113, 1);
+          --color-brown-600: rgba(94, 82, 64, 1);
+          --color-charcoal-700: rgba(31, 33, 33, 1);
+          --color-charcoal-800: rgba(38, 40, 40, 1);
+          --color-slate-900: rgba(19, 52, 59, 1);
+          --color-teal-300: rgba(50, 184, 198, 1);
+          --color-teal-400: rgba(45, 166, 178, 1);
+          --color-teal-500: rgba(33, 128, 141, 1);
+          --color-teal-600: rgba(29, 116, 128, 1);
+          --color-teal-700: rgba(26, 104, 115, 1);
+          --color-teal-800: rgba(41, 150, 161, 1);
+          --color-red-400: rgba(255, 84, 89, 1);
+          --color-red-500: rgba(192, 21, 47, 1);
+          --color-orange-400: rgba(230, 129, 97, 1);
+          --color-orange-500: rgba(168, 75, 47, 1);
+
+          /* RGB versions for opacity control */
+          --color-brown-600-rgb: 94, 82, 64;
+          --color-teal-500-rgb: 33, 128, 141;
+          --color-slate-900-rgb: 19, 52, 59;
+          --color-slate-500-rgb: 98, 108, 113;
+          --color-red-500-rgb: 192, 21, 47;
+          --color-red-400-rgb: 255, 84, 89;
+          --color-orange-500-rgb: 168, 75, 47;
+          --color-orange-400-rgb: 230, 129, 97;
+
+          /* Background color tokens (Light Mode) */
+          --color-bg-1: rgba(59, 130, 246, 0.08); /* Light blue */
+          --color-bg-2: rgba(245, 158, 11, 0.08); /* Light yellow */
+          --color-bg-3: rgba(34, 197, 94, 0.08); /* Light green */
+          --color-bg-4: rgba(239, 68, 68, 0.08); /* Light red */
+          --color-bg-5: rgba(147, 51, 234, 0.08); /* Light purple */
+          --color-bg-6: rgba(249, 115, 22, 0.08); /* Light orange */
+          --color-bg-7: rgba(236, 72, 153, 0.08); /* Light pink */
+          --color-bg-8: rgba(6, 182, 212, 0.08); /* Light cyan */
+
+          /* Semantic Color Tokens (Light Mode) */
+          --color-background: var(--color-cream-50);
+          --color-surface: var(--color-cream-100);
+          --color-text: var(--color-slate-900);
+          --color-text-secondary: var(--color-slate-500);
+          --color-primary: var(--color-teal-500);
+          --color-primary-hover: var(--color-teal-600);
+          --color-primary-active: var(--color-teal-700);
+          --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+          --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+          --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+          --color-btn-primary-text: var(--color-cream-50);
+          --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-error: var(--color-red-500);
+          --color-success: var(--color-teal-500);
+          --color-warning: var(--color-orange-500);
+          --color-info: var(--color-slate-500);
+          --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+          --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+          /* Common style patterns */
+          --focus-ring: 0 0 0 3px var(--color-focus-ring);
+          --focus-outline: 2px solid var(--color-primary);
+          --status-bg-opacity: 0.15;
+          --status-border-opacity: 0.25;
+          --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+          --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+          /* RGB versions for opacity control */
+          --color-success-rgb: 33, 128, 141;
+          --color-error-rgb: 192, 21, 47;
+          --color-warning-rgb: 168, 75, 47;
+          --color-info-rgb: 98, 108, 113;
+
+          /* Typography */
+          --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system,
+            BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          --font-family-mono: "Berkeley Mono", ui-monospace, SFMono-Regular, Menlo,
+            Monaco, Consolas, monospace;
+          --font-size-xs: 11px;
+          --font-size-sm: 12px;
+          --font-size-base: 14px;
+          --font-size-md: 14px;
+          --font-size-lg: 16px;
+          --font-size-xl: 18px;
+          --font-size-2xl: 20px;
+          --font-size-3xl: 24px;
+          --font-size-4xl: 30px;
+          --font-weight-normal: 400;
+          --font-weight-medium: 500;
+          --font-weight-semibold: 550;
+          --font-weight-bold: 600;
+          --line-height-tight: 1.2;
+          --line-height-normal: 1.5;
+          --letter-spacing-tight: -0.01em;
+
+          /* Spacing */
+          --space-0: 0;
+          --space-1: 1px;
+          --space-2: 2px;
+          --space-4: 4px;
+          --space-6: 6px;
+          --space-8: 8px;
+          --space-10: 10px;
+          --space-12: 12px;
+          --space-16: 16px;
+          --space-20: 20px;
+          --space-24: 24px;
+          --space-32: 32px;
+
+          /* Border Radius */
+          --radius-sm: 6px;
+          --radius-base: 8px;
+          --radius-md: 10px;
+          --radius-lg: 12px;
+          --radius-full: 9999px;
+
+          /* Shadows */
+          --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+          --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+          --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04),
+            0 2px 4px -1px rgba(0, 0, 0, 0.02);
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04),
+            0 4px 6px -2px rgba(0, 0, 0, 0.02);
+          --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+          /* Animation */
+          --duration-fast: 150ms;
+          --duration-normal: 250ms;
+          --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+          /* Layout */
+          --container-sm: 640px;
+          --container-md: 768px;
+          --container-lg: 1024px;
+          --container-xl: 1280px;
+        }
+
+        /* Dark mode colors */
+        @media (prefers-color-scheme: dark) {
+          :root {
+            /* RGB versions for opacity control (Dark Mode) */
+            --color-gray-400-rgb: 119, 124, 124;
+            --color-teal-300-rgb: 50, 184, 198;
+            --color-gray-300-rgb: 167, 169, 169;
+            --color-gray-200-rgb: 245, 245, 245;
+
+            /* Background color tokens (Dark Mode) */
+            --color-bg-1: rgba(29, 78, 216, 0.15); /* Dark blue */
+            --color-bg-2: rgba(180, 83, 9, 0.15); /* Dark yellow */
+            --color-bg-3: rgba(21, 128, 61, 0.15); /* Dark green */
+            --color-bg-4: rgba(185, 28, 28, 0.15); /* Dark red */
+            --color-bg-5: rgba(107, 33, 168, 0.15); /* Dark purple */
+            --color-bg-6: rgba(194, 65, 12, 0.15); /* Dark orange */
+            --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
+            --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
+            
+            /* Semantic Color Tokens (Dark Mode) */
+            --color-background: var(--color-charcoal-700);
+            --color-surface: var(--color-charcoal-800);
+            --color-text: var(--color-gray-200);
+            --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+            --color-primary: var(--color-teal-300);
+            --color-primary-hover: var(--color-teal-400);
+            --color-primary-active: var(--color-teal-800);
+            --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+            --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+            --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+            --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+            --color-error: var(--color-red-400);
+            --color-success: var(--color-teal-300);
+            --color-warning: var(--color-orange-400);
+            --color-info: var(--color-gray-300);
+            --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+            --color-btn-primary-text: var(--color-slate-900);
+            --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+            --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+            --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+            --button-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+            --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+            --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+            /* Common style patterns - updated for dark mode */
+            --focus-ring: 0 0 0 3px var(--color-focus-ring);
+            --focus-outline: 2px solid var(--color-primary);
+            --status-bg-opacity: 0.15;
+            --status-border-opacity: 0.25;
+            --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+            /* RGB versions for dark mode */
+            --color-success-rgb: var(--color-teal-300-rgb);
+            --color-error-rgb: var(--color-red-400-rgb);
+            --color-warning-rgb: var(--color-orange-400-rgb);
+            --color-info-rgb: var(--color-gray-300-rgb);
+          }
+        }
+
+        /* Data attribute for manual theme switching */
+        [data-color-scheme="dark"] {
+          /* RGB versions for opacity control (dark mode) */
+          --color-gray-400-rgb: 119, 124, 124;
+          --color-teal-300-rgb: 50, 184, 198;
+          --color-gray-300-rgb: 167, 169, 169;
+          --color-gray-200-rgb: 245, 245, 245;
+
+          /* Colorful background palette - Dark Mode */
+          --color-bg-1: rgba(29, 78, 216, 0.15); /* Dark blue */
+          --color-bg-2: rgba(180, 83, 9, 0.15); /* Dark yellow */
+          --color-bg-3: rgba(21, 128, 61, 0.15); /* Dark green */
+          --color-bg-4: rgba(185, 28, 28, 0.15); /* Dark red */
+          --color-bg-5: rgba(107, 33, 168, 0.15); /* Dark purple */
+          --color-bg-6: rgba(194, 65, 12, 0.15); /* Dark orange */
+          --color-bg-7: rgba(190, 24, 93, 0.15); /* Dark pink */
+          --color-bg-8: rgba(8, 145, 178, 0.15); /* Dark cyan */
+          
+          /* Semantic Color Tokens (Dark Mode) */
+          --color-background: var(--color-charcoal-700);
+          --color-surface: var(--color-charcoal-800);
+          --color-text: var(--color-gray-200);
+          --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+          --color-primary: var(--color-teal-300);
+          --color-primary-hover: var(--color-teal-400);
+          --color-primary-active: var(--color-teal-800);
+          --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+          --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+          --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+          --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+          --color-error: var(--color-red-400);
+          --color-success: var(--color-teal-300);
+          --color-warning: var(--color-orange-400);
+          --color-info: var(--color-gray-300);
+          --color-focus-ring: rgba(var(--color-teal-300-rgb), 0.4);
+          --color-btn-primary-text: var(--color-slate-900);
+          --color-card-border: rgba(var(--color-gray-400-rgb), 0.15);
+          --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+          --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+          --color-border-secondary: rgba(var(--color-gray-400-rgb), 0.2);
+          --color-select-caret: rgba(var(--color-gray-200-rgb), 0.8);
+
+          /* Common style patterns - updated for dark mode */
+          --focus-ring: 0 0 0 3px var(--color-focus-ring);
+          --focus-outline: 2px solid var(--color-primary);
+          --status-bg-opacity: 0.15;
+          --status-border-opacity: 0.25;
+          --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+          --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+          /* RGB versions for dark mode */
+          --color-success-rgb: var(--color-teal-300-rgb);
+          --color-error-rgb: var(--color-red-400-rgb);
+          --color-warning-rgb: var(--color-orange-400-rgb);
+          --color-info-rgb: var(--color-gray-300-rgb);
+        }
+
+        [data-color-scheme="light"] {
+          /* RGB versions for opacity control (light mode) */
+          --color-brown-600-rgb: 94, 82, 64;
+          --color-teal-500-rgb: 33, 128, 141;
+          --color-slate-900-rgb: 19, 52, 59;
+          
+          /* Semantic Color Tokens (Light Mode) */
+          --color-background: var(--color-cream-50);
+          --color-surface: var(--color-cream-100);
+          --color-text: var(--color-slate-900);
+          --color-text-secondary: var(--color-slate-500);
+          --color-primary: var(--color-teal-500);
+          --color-primary-hover: var(--color-teal-600);
+          --color-primary-active: var(--color-teal-700);
+          --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+          --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+          --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+          --color-btn-primary-text: var(--color-cream-50);
+          --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+          --color-error: var(--color-red-500);
+          --color-success: var(--color-teal-500);
+          --color-warning: var(--color-orange-500);
+          --color-info: var(--color-slate-500);
+          --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+
+          /* RGB versions for light mode */
+          --color-success-rgb: var(--color-teal-500-rgb);
+          --color-error-rgb: var(--color-red-500-rgb);
+          --color-warning-rgb: var(--color-orange-500-rgb);
+          --color-info-rgb: var(--color-slate-500-rgb);
+        }
+
+        /* Base styles */
+        html {
+          font-size: var(--font-size-base);
+          font-family: var(--font-family-base);
+          line-height: var(--line-height-normal);
+          color: var(--color-text);
+          background-color: var(--color-background);
+          -webkit-font-smoothing: antialiased;
+          box-sizing: border-box;
+        }
+
+        body {
+          margin: 0;
+          padding: 0;
+        }
+
+        *,
+        *::before,
+        *::after {
+          box-sizing: inherit;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          margin: 0;
+          font-weight: var(--font-weight-semibold);
+          line-height: var(--line-height-tight);
+          color: var(--color-text);
+          letter-spacing: var(--letter-spacing-tight);
+        }
+
+        h1 {
+          font-size: var(--font-size-4xl);
+        }
+        h2 {
+          font-size: var(--font-size-3xl);
+        }
+        h3 {
+          font-size: var(--font-size-2xl);
+        }
+        h4 {
+          font-size: var(--font-size-xl);
+        }
+        h5 {
+          font-size: var(--font-size-lg);
+        }
+        h6 {
+          font-size: var(--font-size-md);
+        }
+
+        p {
+          margin: 0 0 var(--space-16) 0;
+        }
+
+        a {
+          color: var(--color-primary);
+          text-decoration: none;
+          transition: color var(--duration-fast) var(--ease-standard);
+        }
+
+        a:hover {
+          color: var(--color-primary-hover);
+        }
+
+        code,
+        pre {
+          font-family: var(--font-family-mono);
+          font-size: calc(var(--font-size-base) * 0.95);
+          background-color: var(--color-secondary);
+          border-radius: var(--radius-sm);
+        }
+
+        code {
+          padding: var(--space-1) var(--space-4);
+        }
+
+        pre {
+          padding: var(--space-16);
+          margin: var(--space-16) 0;
+          overflow: auto;
+          border: 1px solid var(--color-border);
+        }
+
+        pre code {
+          background: none;
+          padding: 0;
+        }
+
+        /* Buttons */
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: var(--space-8) var(--space-16);
+          border-radius: var(--radius-base);
+          font-size: var(--font-size-base);
+          font-weight: 500;
+          line-height: 1.5;
+          cursor: pointer;
+          transition: all var(--duration-normal) var(--ease-standard);
+          border: none;
+          text-decoration: none;
+          position: relative;
+        }
+
+        .btn:focus-visible {
+          outline: none;
+          box-shadow: var(--focus-ring);
+        }
+
+        .btn--primary {
+          background: var(--color-primary);
+          color: var(--color-btn-primary-text);
+        }
+
+        .btn--primary:hover {
+          background: var(--color-primary-hover);
+        }
+
+        .btn--primary:active {
+          background: var(--color-primary-active);
+        }
+
+        .btn--secondary {
+          background: var(--color-secondary);
+          color: var(--color-text);
+        }
+
+        .btn--secondary:hover {
+          background: var(--color-secondary-hover);
+        }
+
+        .btn--secondary:active {
+          background: var(--color-secondary-active);
+        }
+
+        .btn--outline {
+          background: transparent;
+          border: 1px solid var(--color-border);
+          color: var(--color-text);
+        }
+
+        .btn--outline:hover {
+          background: var(--color-secondary);
+        }
+
+        .btn--sm {
+          padding: var(--space-4) var(--space-12);
+          font-size: var(--font-size-sm);
+          border-radius: var(--radius-sm);
+        }
+
+        .btn--lg {
+          padding: var(--space-10) var(--space-20);
+          font-size: var(--font-size-lg);
+          border-radius: var(--radius-md);
+        }
+
+        .btn--full-width {
+          width: 100%;
+        }
+
+        .btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        /* Form elements */
+        .form-control {
+          display: block;
+          width: 100%;
+          padding: var(--space-8) var(--space-12);
+          font-size: var(--font-size-md);
+          line-height: 1.5;
+          color: var(--color-text);
+          background-color: var(--color-surface);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-base);
+          transition: border-color var(--duration-fast) var(--ease-standard),
+            box-shadow var(--duration-fast) var(--ease-standard);
+        }
+
+        textarea.form-control {
+          font-family: var(--font-family-base);
+          font-size: var(--font-size-base);
+        }
+
+        select.form-control {
+          padding: var(--space-8) var(--space-12);
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          background-image: var(--select-caret-light);
+          background-repeat: no-repeat;
+          background-position: right var(--space-12) center;
+          background-size: 16px;
+          padding-right: var(--space-32);
+        }
+
+        /* Add a dark mode specific caret */
+        @media (prefers-color-scheme: dark) {
+          select.form-control {
+            background-image: var(--select-caret-dark);
+          }
+        }
+
+        /* Also handle data-color-scheme */
+        [data-color-scheme="dark"] select.form-control {
+          background-image: var(--select-caret-dark);
+        }
+
+        [data-color-scheme="light"] select.form-control {
+          background-image: var(--select-caret-light);
+        }
+
+        .form-control:focus {
+          border-color: var(--color-primary);
+          outline: var(--focus-outline);
+        }
+
+        .form-label {
+          display: block;
+          margin-bottom: var(--space-8);
+          font-weight: var(--font-weight-medium);
+          font-size: var(--font-size-sm);
+        }
+
+        .form-group {
+          margin-bottom: var(--space-16);
+        }
+
+        /* Card component */
+        .card {
+          background-color: var(--color-surface);
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--color-card-border);
+          box-shadow: var(--shadow-sm);
+          overflow: hidden;
+          transition: box-shadow var(--duration-normal) var(--ease-standard);
+        }
+
+        .card:hover {
+          box-shadow: var(--shadow-md);
+        }
+
+        .card__body {
+          padding: var(--space-16);
+        }
+
+        .card__header,
+        .card__footer {
+          padding: var(--space-16);
+          border-bottom: 1px solid var(--color-card-border-inner);
+        }
+
+        /* Status indicators - simplified with CSS variables */
+        .status {
+          display: inline-flex;
+          align-items: center;
+          padding: var(--space-6) var(--space-12);
+          border-radius: var(--radius-full);
+          font-weight: var(--font-weight-medium);
+          font-size: var(--font-size-sm);
+        }
+
+        .status--success {
+          background-color: rgba(
+            var(--color-success-rgb, 33, 128, 141),
+            var(--status-bg-opacity)
+          );
+          color: var(--color-success);
+          border: 1px solid
+            rgba(var(--color-success-rgb, 33, 128, 141), var(--status-border-opacity));
+        }
+
+        .status--error {
+          background-color: rgba(
+            var(--color-error-rgb, 192, 21, 47),
+            var(--status-bg-opacity)
+          );
+          color: var(--color-error);
+          border: 1px solid
+            rgba(var(--color-error-rgb, 192, 21, 47), var(--status-border-opacity));
+        }
+
+        .status--warning {
+          background-color: rgba(
+            var(--color-warning-rgb, 168, 75, 47),
+            var(--status-bg-opacity)
+          );
+          color: var(--color-warning);
+          border: 1px solid
+            rgba(var(--color-warning-rgb, 168, 75, 47), var(--status-border-opacity));
+        }
+
+        .status--info {
+          background-color: rgba(
+            var(--color-info-rgb, 98, 108, 113),
+            var(--status-bg-opacity)
+          );
+          color: var(--color-info);
+          border: 1px solid
+            rgba(var(--color-info-rgb, 98, 108, 113), var(--status-border-opacity));
+        }
+
+        /* Container layout */
+        .container {
+          width: 100%;
+          margin-right: auto;
+          margin-left: auto;
+          padding-right: var(--space-16);
+          padding-left: var(--space-16);
+        }
+
+        @media (min-width: 640px) {
+          .container {
+            max-width: var(--container-sm);
+          }
+        }
+        @media (min-width: 768px) {
+          .container {
+            max-width: var(--container-md);
+          }
+        }
+        @media (min-width: 1024px) {
+          .container {
+            max-width: var(--container-lg);
+          }
+        }
+        @media (min-width: 1280px) {
+          .container {
+            max-width: var(--container-xl);
+          }
+        }
+
+        /* Utility classes */
+        .flex {
+          display: flex;
+        }
+        .flex-col {
+          flex-direction: column;
+        }
+        .items-center {
+          align-items: center;
+        }
+        .justify-center {
+          justify-content: center;
+        }
+        .justify-between {
+          justify-content: space-between;
+        }
+        .gap-4 {
+          gap: var(--space-4);
+        }
+        .gap-8 {
+          gap: var(--space-8);
+        }
+        .gap-16 {
+          gap: var(--space-16);
+        }
+
+        .m-0 {
+          margin: 0;
+        }
+        .mt-8 {
+          margin-top: var(--space-8);
+        }
+        .mb-8 {
+          margin-bottom: var(--space-8);
+        }
+        .mx-8 {
+          margin-left: var(--space-8);
+          margin-right: var(--space-8);
+        }
+        .my-8 {
+          margin-top: var(--space-8);
+          margin-bottom: var(--space-8);
+        }
+
+        .p-0 {
+          padding: 0;
+        }
+        .py-8 {
+          padding-top: var(--space-8);
+          padding-bottom: var(--space-8);
+        }
+        .px-8 {
+          padding-left: var(--space-8);
+          padding-right: var(--space-8);
+        }
+        .py-16 {
+          padding-top: var(--space-16);
+          padding-bottom: var(--space-16);
+        }
+        .px-16 {
+          padding-left: var(--space-16);
+          padding-right: var(--space-16);
+        }
+
+        .block {
+          display: block;
+        }
+        .hidden {
+          display: none;
+        }
+
+        /* Accessibility */
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border-width: 0;
+        }
+
+        :focus-visible {
+          outline: var(--focus-outline);
+          outline-offset: 2px;
+        }
+
+        /* Dark mode specifics */
+        [data-color-scheme="dark"] .btn--outline {
+          border: 1px solid var(--color-border-secondary);
+        }
+
+        @font-face {
+          font-family: 'FKGroteskNeue';
+          src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2')
+            format('woff2');
+        }
+
+        /* END PERPLEXITY DESIGN SYSTEM */
+        /* SCALE 2044 - Premium Landing Page Styles */
+
+        /* Import design system first */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        /* Custom properties for SCALE branding */
+        :root {
+          /* SCALE Brand Colors */
+          --scale-primary: #0041B3;
+          --scale-primary-light: #1a5bc9;
+          --scale-primary-dark: #003399;
+          --scale-secondary: #6366f1;
+          --scale-accent: #ec4899;
+          
+          /* Gradients */
+          --gradient-primary: linear-gradient(135deg, #0041B3 0%, #6366f1 50%, #ec4899 100%);
+          --gradient-secondary: linear-gradient(135deg, #1a5bc9 0%, #8b5cf6 100%);
+          --gradient-tech: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+          --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+          
+          /* Glass morphism */
+          --glass-bg: rgba(255, 255, 255, 0.15);
+          --glass-border: rgba(255, 255, 255, 0.2);
+          --glass-shadow: 0 8px 32px rgba(0, 65, 179, 0.15);
+          
+          /* Shadows */
+          --shadow-premium: 0 20px 40px rgba(0, 0, 0, 0.1);
+          --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.08);
+          --shadow-hover: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Base styles override */
+        body {
+          font-family: 'Inter', var(--font-family-base);
+          line-height: 1.6;
+          color: var(--color-text);
+          background: var(--color-background);
+          overflow-x: hidden;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Smooth scrolling */
+        html {
+          scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        .navbar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 1000;
+          background: var(--color-background);
+          backdrop-filter: blur(20px);
+          border-bottom: 1px solid var(--color-border);
+          transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .navbar-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: var(--space-16) 0;
+        }
+
+        .logo {
+          display: flex;
+          align-items: baseline;
+          gap: var(--space-8);
+        }
+
+        .logo h1 {
+          font-size: var(--font-size-3xl);
+          font-weight: 800;
+          background: var(--gradient-primary);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          letter-spacing: -0.03em;
+          margin: 0;
+        }
+
+        .logo-tagline {
+          font-size: var(--font-size-sm);
+          font-weight: 600;
+          color: var(--scale-secondary);
+          background: var(--color-bg-5);
+          padding: var(--space-2) var(--space-6);
+          border-radius: var(--radius-full);
+        }
+
+        .nav-menu {
+          display: flex;
+          align-items: center;
+          gap: var(--space-32);
+        }
+
+        .nav-link {
+          color: var(--color-text-secondary);
+          text-decoration: none;
+          font-weight: 500;
+          font-size: var(--font-size-md);
+          transition: color var(--duration-fast) var(--ease-standard);
+        }
+
+        .nav-link:hover {
+          color: var(--scale-primary);
+        }
+
+        /* Custom button styles */
+        .btn--sm {
+          padding: var(--space-6) var(--space-16);
+          font-size: var(--font-size-sm);
+        }
+
+        .btn--lg {
+          padding: var(--space-16) var(--space-32);
+          font-size: var(--font-size-lg);
+          font-weight: 600;
+        }
+
+        .btn--primary {
+          background: var(--gradient-primary);
+          border: none;
+          color: white;
+          box-shadow: var(--shadow-card);
+          transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .btn--primary:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-hover);
+        }
+
+        .btn--outline {
+          background: transparent;
+          border: 2px solid var(--scale-primary);
+          color: var(--scale-primary);
+          transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .btn--outline:hover {
+          background: var(--scale-primary);
+          color: white;
+          transform: translateY(-2px);
+        }
+
+        .btn--full-width {
+          width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+          position: relative;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          padding-top: 80px;
+          overflow: hidden;
+        }
+
+        .hero-bg {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: var(--color-bg-1);
+          opacity: 0.3;
+          z-index: -2;
+        }
+
+        .hero-gradient {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: var(--gradient-primary);
+          opacity: 0.05;
+          z-index: -1;
+        }
+
+        .hero-content {
+          text-align: center;
+          max-width: 900px;
+          margin: 0 auto;
+          padding: var(--space-32) 0;
+        }
+
+        .hero-title {
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-weight: 800;
+          margin-bottom: var(--space-24);
+          background: var(--gradient-primary);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          line-height: 1.1;
+          letter-spacing: -0.03em;
+        }
+
+        .hero-subtitle {
+          font-size: var(--font-size-xl);
+          color: var(--color-text-secondary);
+          margin-bottom: var(--space-32);
+          font-weight: 400;
+          max-width: 700px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .hero-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: var(--space-24);
+          margin: var(--space-32) 0;
+        }
+
+        .stat-card {
+          background: var(--glass-bg);
+          backdrop-filter: blur(20px);
+          border-radius: var(--radius-lg);
+          border: 1px solid var(--glass-border);
+          padding: var(--space-24);
+          text-align: center;
+          box-shadow: var(--glass-shadow);
+          transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .stat-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-hover);
+        }
+
+        .stat-number {
+          font-size: var(--font-size-4xl);
+          font-weight: 800;
+          color: var(--scale-primary);
+          margin-bottom: var(--space-8);
+          background: var(--gradient-primary);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+
+        .stat-label {
+          font-size: var(--font-size-md);
+          color: var(--color-text-secondary);
+          font-weight: 500;
+        }
+
+        .hero-cta {
+          display: flex;
+          gap: var(--space-16);
+          justify-content: center;
+          flex-wrap: wrap;
+          margin-top: var(--space-32);
+        }
+
+        /* Marketplace Section */
+        .marketplace {
+          padding: 6rem 0;
+          background: var(--color-background);
+        }
+
+        .marketplace-projects {
+          display: grid;
+          gap: var(--space-32);
+          margin-bottom: 4rem;
+        }
+
+        .marketplace-project {
+          background: var(--color-surface);
+          border-radius: var(--radius-lg);
+          padding: var(--space-32);
+          border: 1px solid var(--color-card-border);
+          box-shadow: var(--shadow-card);
+          transition: all var(--duration-normal) var(--ease-standard);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .marketplace-project::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 6px;
+          background: var(--gradient-primary);
+        }
+
+        .marketplace-project:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-hover);
+        }
+
+        .project-content {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: var(--space-32);
+          align-items: start;
+        }
+
+        .project-info h3 {
+          font-size: var(--font-size-3xl);
+          font-weight: 700;
+          margin-bottom: var(--space-8);
+          color: var(--color-text);
+        }
+
+        .project-subtitle {
+          font-size: var(--font-size-lg);
+          color: var(--scale-primary);
+          font-weight: 600;
+          margin-bottom: var(--space-16);
+        }
+
+        .project-description {
+          color: var(--color-text-secondary);
+          line-height: 1.7;
+          margin-bottom: var(--space-24);
+        }
+
+        .project-advantages {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .project-advantages li {
+          padding: var(--space-8) 0;
+          color: var(--color-text-secondary);
+          position: relative;
+          padding-left: var(--space-24);
+        }
+
+        .project-advantages li::before {
+          content: '✅';
+          position: absolute;
+          left: 0;
+          font-size: 0.9rem;
+        }
+
+        .project-metrics {
+          background: var(--color-bg-2);
+          border-radius: var(--radius-base);
+          padding: var(--space-20);
+        }
+
+        .project-metrics h4 {
+          font-size: var(--font-size-lg);
+          font-weight: 600;
+          margin-bottom: var(--space-16);
+          color: var(--color-text);
+        }
+
+        .metric-item {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: var(--space-8);
+        }
+
+        .metric-label {
+          color: var(--color-text-secondary);
+          font-size: var(--font-size-sm);
+        }
+
+        .metric-value {
+          font-weight: 600;
+          color: var(--scale-primary);
+          font-size: var(--font-size-sm);
+        }
+
+        .project-action {
+          margin-top: var(--space-20);
+        }
+
+        /* Project Role Selection */
+        .project-roles {
+          margin-top: var(--space-20);
+          padding-top: var(--space-20);
+          border-top: 1px solid var(--color-card-border-inner);
+        }
+
+        .project-roles h5 {
+          font-size: var(--font-size-md);
+          font-weight: 600;
+          margin-bottom: var(--space-12);
+          color: var(--color-text);
+          text-align: center;
+        }
+
+        .role-options {
+          display: grid;
+          gap: var(--space-12);
+        }
+
+        .role-option {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: var(--space-12);
+          background: var(--color-bg-1);
+          border-radius: var(--radius-base);
+          border: 1px solid var(--color-card-border-inner);
+          transition: all var(--duration-fast) var(--ease-standard);
+        }
+
+        .role-option:hover {
+          background: var(--color-bg-3);
+          border-color: var(--scale-primary);
+        }
+
+        .role-info {
+          display: flex;
+          align-items: center;
+          gap: var(--space-8);
+        }
+
+        .role-emoji {
+          font-size: var(--font-size-lg);
+        }
+
+        .role-title {
+          font-weight: 500;
+          color: var(--color-text);
+          font-size: var(--font-size-sm);
+        }
+
+        .role-button {
+          padding: var(--space-6) var(--space-12);
+          font-size: var(--font-size-xs);
+          border-radius: var(--radius-sm);
+          font-weight: 500;
+          border: none;
+          cursor: pointer;
+          transition: all var(--duration-fast) var(--ease-standard);
+          background: var(--scale-primary);
+          color: white;
+        }
+
+        .role-button:hover {
+          background: var(--scale-primary-dark);
+          transform: translateY(-1px);
+        }
+
+        /* Add Project Section */
+        .add-project-section {
+          margin-top: 3rem;
+        }
+
+        .add-project-card {
+          background: var(--color-bg-3);
+          border-radius: var(--radius-lg);
+          border: 2px dashed var(--scale-primary);
+          padding: var(--space-32);
+          text-align: center;
+          transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .add-project-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-hover);
+          border-style: solid;
+        }
+
+        .add-project-content h3 {
+          font-size: var(--font-size-2xl);
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: var(--space-12);
+        }
+
+        .add-project-subtitle {
+          font-size: var(--font-size-lg);
+          color: var(--color-text-secondary);
+          margin-bottom: var(--space-24);
+        }
+
+        .benefits-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: var(--space-16);
+          margin-bottom: var(--space-32);
+        }
+
+        .benefit-item {
+          display: flex;
+          align-items: center;
+          gap: var(--space-12);
+          text-align: left;
+          padding: var(--space-12);
+          background: var(--color-surface);
+          border-radius: var(--radius-base);
+          box-shadow: var(--shadow-xs);
+        }
+
+        .benefit-icon {
+          font-size: 1.5rem;
+          flex-shrink: 0;
+        }
+
+        /* Section Headers */
+        .section-header {
+          text-align: center;
+          margin-bottom: var(--space-32);
+        }
+
+        .section-header h2 {
+          font-size: var(--font-size-4xl);
+          font-weight: 700;
+          margin-bottom: var(--space-16);
+          color: var(--color-text);
+          letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+          font-size: var(--font-size-xl);
+          color: var(--color-text-secondary);
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        /* Mission Section */
+        .mission {
+          padding: 6rem 0;
+          background: var(--color-surface);
+        }
+
+        .mission-description {
+          text-align: center;
+          max-width: 800px;
+          margin: 0 auto var(--space-32) auto;
+        }
+
+        .mission-description p {
+          font-size: var(--font-size-lg);
+          color: var(--color-text-secondary);
+          line-height: 1.7;
+        }
+
+        .pillars-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: var(--space-24);
+        }
+
+        .pillar-card {
+          background: var(--color-surface);
+          border-radius: var(--radius-lg);
+          padding: var(--space-24);
+          border: 1px solid var(--color-card-border);
+          box-shadow: var(--shadow-card);
+          transition: all var(--duration-normal) var(--ease-standard);
+          text-align: center;
+        }
+
+        .pillar-card:hover {
+          transform: translateY(-6px);
+          box-shadow: var(--shadow-hover);
+          border-color: var(--scale-primary);
+        }
+
+        .pillar-icon {
+          font-size: 3rem;
+          margin-bottom: var(--space-16);
+        }
+
+        .pillar-card h3 {
+          font-size: var(--font-size-xl);
+          font-weight: 600;
+          margin-bottom: var(--space-12);
+          color: var(--color-text);
+        }
+
+        .pillar-card p {
+          color: var(--color-text-secondary);
+          line-height: 1.6;
+          margin: 0;
+        }
+
+        /* Ecosystem Section */
+        .ecosystem {
+          padding: 6rem 0;
+          background: var(--color-bg-1);
+        }
+
+        .products-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: var(--space-24);
+        }
+
+        .product-card {
+          background: var(--color-surface);
+          border-radius: var(--radius-lg);
+          padding: var(--space-24);
+          border: 1px solid var(--color-card-border);
+          box-shadow: var(--shadow-card);
+          transition: all var(--duration-normal) var(--ease-standard);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .product-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: var(--gradient-primary);
+        }
+
+        .product-card:hover {
+          transform: translateY(-8px);
+          box-shadow: var(--shadow-hover);
+        }
+
+        .product-header {
+          display: flex;
+          align-items: center;
+          gap: var(--space-12);
+          margin-bottom: var(--space-16);
+        }
+
+        .product-icon {
+          font-size: 2.5rem;
+        }
+
+        .product-title {
+          font-size: var(--font-size-xl);
+          font-weight: 600;
+          color: var(--color-text);
+          margin: 0;
+        }
+
+        .product-subtitle {
+          font-size: var(--font-size-lg);
+          color: var(--color-text-secondary);
+          margin-bottom: var(--space-16);
+        }
+
+        .product-description {
+          color: var(--color-text-secondary);
+          margin-bottom: var(--space-16);
+          line-height: 1.6;
+        }
+
+        .product-features {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .product-features li {
+          padding: var(--space-6) 0;
+          color: var(--color-text-secondary);
+          position: relative;
+          padding-left: var(--space-20);
+        }
+
+        .product-features li::before {
+          content: '✓';
+          position: absolute;
+          left: 0;
+          color: var(--scale-primary);
+          font-weight: 600;
+        }
+        
+        /* How It Works Section */
+        .how-it-works-section {
+          padding: 6rem 0;
+          background: var(--color-surface);
+        }
+
+        .how-it-works-content {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: 4rem;
+          align-items: center;
+        }
+        
+        .how-it-works-header {
+            text-align: left;
+        }
+
+        .how-it-works-header h2 {
+          font-size: var(--font-size-4xl);
+          font-weight: 700;
+          margin-bottom: var(--space-16);
+          color: var(--color-text);
+          letter-spacing: -0.02em;
+        }
+
+        .how-it-works-header p {
+          font-size: var(--font-size-xl);
+          color: var(--color-text-secondary);
+          line-height: 1.7;
+        }
+
+        .process-timeline {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-16);
+        }
+
+        .process-timeline::before {
+          content: '';
+          position: absolute;
+          left: 20px;
+          top: 20px;
+          bottom: 20px;
+          width: 2px;
+          background-color: var(--color-border);
+          z-index: 0;
+        }
+
+        .process-step {
+          display: flex;
+          align-items: flex-start;
+          gap: var(--space-24);
+          position: relative;
+          padding-left: 65px; /* Space for number */
+        }
+
+        .process-step-number {
+          width: 42px;
+          height: 42px;
+          flex-shrink: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          background: var(--gradient-primary);
+          color: white;
+          font-weight: 600;
+          font-size: var(--font-size-lg);
+          position: absolute;
+          left: 0;
+          top: -5px;
+          z-index: 1;
+          border: 4px solid var(--color-surface);
+        }
+
+        .process-step-content h3 {
+          font-size: var(--font-size-xl);
+          font-weight: 600;
+          margin-bottom: var(--space-8);
+          color: var(--color-text);
+        }
+
+        .process-step-content p {
+          color: var(--color-text-secondary);
+          line-height: 1.6;
+          margin: 0;
+        }
+        
+        @media (max-width: 992px) {
+            .how-it-works-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .how-it-works-header {
+                text-align: center;
+            }
+            .process-timeline::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .process-step {
+               padding-left: 0;
+               align-items: center;
+               text-align: center;
+               flex-direction: column;
+               gap: var(--space-12);
+            }
+            .process-step-number {
+                position: relative;
+                left: auto;
+                top: auto;
+            }
+        }
+
+
+        /* CTA Section */
+        .cta-section {
+          padding: 6rem 0;
+          background: var(--color-background);
+        }
+
+        .cta-forms {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: var(--space-24);
+        }
+
+        .cta-card {
+          background: var(--color-surface);
+          border-radius: var(--radius-lg);
+          padding: var(--space-24);
+          text-align: center;
+          border: 1px solid var(--color-card-border);
+          box-shadow: var(--shadow-card);
+          transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .cta-card:hover {
+          transform: translateY(-6px);
+          box-shadow: var(--shadow-hover);
+          border-color: var(--scale-primary);
+        }
+
+        .cta-card h3 {
+          font-size: var(--font-size-2xl);
+          font-weight: 600;
+          margin-bottom: var(--space-12);
+          color: var(--color-text);
+        }
+
+        .cta-card p {
+          color: var(--color-text-secondary);
+          margin-bottom: var(--space-20);
+          line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+          background: var(--color-charcoal-800);
+          color: var(--color-gray-200);
+          padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+          display: grid;
+          gap: var(--space-24);
+        }
+
+        .footer-main {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: var(--space-24);
+        }
+
+        .footer-brand h3 {
+          font-size: var(--font-size-2xl);
+          font-weight: 700;
+          background: var(--gradient-primary);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: var(--space-8);
+        }
+
+        .footer-brand p {
+          color: var(--color-gray-300);
+          margin: 0;
+        }
+
+        .footer-contact h4 {
+          font-size: var(--font-size-lg);
+          font-weight: 600;
+          margin-bottom: var(--space-16);
+          color: var(--color-gray-200);
+        }
+
+        .coordinator-link {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--space-8);
+          color: var(--color-teal-300);
+          text-decoration: none;
+          font-weight: 500;
+          font-size: var(--font-size-lg);
+          transition: color var(--duration-fast) var(--ease-standard);
+        }
+
+        .coordinator-link:hover {
+          color: var(--color-teal-400);
+          text-decoration: none;
+        }
+
+        .telegram-icon {
+          flex-shrink: 0;
+          color: currentColor;
+        }
+
+        .footer-mission {
+          text-align: center;
+          padding-top: var(--space-24);
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-mission p {
+          font-style: italic;
+          color: var(--color-gray-300);
+          margin: 0;
+        }
+
+        /* Modal */
+        .modal {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 2000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: var(--space-16);
+        }
+
+        .modal.hidden {
+          display: none;
+        }
+
+        .modal-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.6);
+          backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+          position: relative;
+          background: var(--color-surface);
+          border-radius: var(--radius-lg);
+          max-width: 600px;
+          width: 100%;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: var(--shadow-premium);
+          border: 1px solid var(--color-card-border);
+        }
+
+        .modal-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: var(--space-20);
+          border-bottom: 1px solid var(--color-card-border);
+        }
+
+        .modal-header h3 {
+          font-size: var(--font-size-xl);
+          font-weight: 600;
+          color: var(--color-text);
+          margin: 0;
+        }
+
+        .modal-close {
+          background: none;
+          border: none;
+          font-size: var(--font-size-3xl);
+          cursor: pointer;
+          color: var(--color-text-secondary);
+          padding: var(--space-4);
+          line-height: 1;
+          transition: color var(--duration-fast) var(--ease-standard);
+        }
+
+        .modal-close:hover {
+          color: var(--color-text);
+        }
+
+        .modal-body {
+          padding: var(--space-20);
+        }
+
+        /* Modal Form */
+        .modal-form {
+          display: flex;
+          flex-direction: column;
+          gap: var(--space-16);
+        }
+
+        .modal-form .form-group {
+          margin-bottom: var(--space-16);
+        }
+
+        .modal-form .form-label {
+          display: block;
+          margin-bottom: var(--space-8);
+          font-weight: var(--font-weight-medium);
+          font-size: var(--font-size-sm);
+          color: var(--color-text);
+        }
+
+        .modal-form .form-control {
+          width: 100%;
+          padding: var(--space-12);
+          border: 1px solid var(--color-border);
+          border-radius: var(--radius-base);
+          font-size: var(--font-size-md);
+          font-family: inherit;
+          background: var(--color-surface);
+          color: var(--color-text);
+          transition: border-color var(--duration-fast) var(--ease-standard);
+        }
+
+        .modal-form .form-control:focus {
+          outline: none;
+          border-color: var(--scale-primary);
+          box-shadow: 0 0 0 3px rgba(0, 65, 179, 0.1);
+        }
+
+        .modal-form textarea.form-control {
+          resize: vertical;
+          min-height: 100px;
+        }
+
+        /* Project modal content styles */
+        .project-modal-content {
+          color: var(--color-text-secondary);
+        }
+
+        .project-modal-subtitle {
+          font-size: var(--font-size-lg);
+          color: var(--scale-primary);
+          font-weight: 600;
+          margin-bottom: var(--space-20);
+        }
+
+        .project-modal-section {
+          margin-bottom: var(--space-24);
+        }
+
+        .project-modal-section h5 {
+          font-size: var(--font-size-lg);
+          font-weight: 600;
+          color: var(--color-text);
+          margin-bottom: var(--space-12);
+        }
+
+        .metrics-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: var(--space-16);
+          margin-bottom: var(--space-16);
+        }
+
+        .metric-card {
+          background: var(--color-bg-1);
+          padding: var(--space-12);
+          border-radius: var(--radius-base);
+          text-align: center;
+        }
+
+        .metric-card .metric-label {
+          font-size: var(--font-size-sm);
+          color: var(--color-text-secondary);
+          display: block;
+          margin-bottom: var(--space-4);
+        }
+
+        .metric-card .metric-value {
+          font-size: var(--font-size-md);
+          font-weight: 600;
+          color: var(--scale-primary);
+        }
+
+        .advantages-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .advantages-list li {
+          padding: var(--space-8) 0;
+          position: relative;
+          padding-left: var(--space-24);
+          color: var(--color-text-secondary);
+        }
+
+        .advantages-list li::before {
+          content: '✅';
+          position: absolute;
+          left: 0;
+          top: var(--space-8);
+        }
+
+        .project-modal-actions {
+          margin-top: var(--space-24);
+          padding-top: var(--space-20);
+          border-top: 1px solid var(--color-card-border);
+        }
+
+        /* Loading animation */
+        .loaded {
+          opacity: 1;
+        }
+
+        body {
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        body.loaded {
+          opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .nav-menu {
+            gap: var(--space-16);
+          }
+          
+          .nav-link {
+            display: none;
+          }
+          
+          .hero-title {
+            font-size: var(--font-size-3xl);
+          }
+          
+          .hero-subtitle {
+            font-size: var(--font-size-lg);
+          }
+          
+          .hero-cta {
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .hero-stats {
+            grid-template-columns: 1fr;
+          }
+          
+          .project-content {
+            grid-template-columns: 1fr;
+            gap: var(--space-20);
+          }
+          
+          .benefits-list {
+            grid-template-columns: 1fr;
+          }
+          
+          .footer-main {
+            grid-template-columns: 1fr;
+          }
+          
+          .section-header h2 {
+            font-size: var(--font-size-3xl);
+          }
+          
+          .role-option {
+            flex-direction: column;
+            text-align: center;
+            gap: var(--space-8);
+          }
+        }
+
+        /* Animations */
+        .fade-in {
+          opacity: 0;
+          transform: translateY(30px);
+          animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .scale-in {
+          opacity: 0;
+          transform: scale(0.9);
+          animation: scaleIn 0.5s ease forwards;
+        }
+
+        @keyframes scaleIn {
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="logo">
+                <h1>SCALE</h1>
+                <span class="logo-tagline">2044</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#marketplace" class="nav-link">Маркетплейс</a>
+                <a href="#mission" class="nav-link">Миссия</a>
+                <a href="#ecosystem" class="nav-link">Экосистема</a>
+                <button class="btn btn--primary btn--sm" onclick="scrollToCTA()">Присоединиться</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Экосистема масштабирования будущего</h1>
+                <p class="hero-subtitle">Создаём 100 единорогов к 2044 году через инновационные технологии и стратегические партнёрства</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">900</div>
+                        <div class="stat-label">Проектов в коллаборации к 2029</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">350</div>
+                        <div class="stat-label">Проектов на 5+ млн ₽ к 2029</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100</div>
+                        <div class="stat-label">Единорогов к 2044 году</div>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <button class="btn btn--primary btn--lg" onclick="scrollToMarketplace()">Посмотреть проекты</button>
+                    <button class="btn btn--outline btn--lg" onclick="scrollToCTA()">Стать партнёром</button>
+                </div>
+            </div>
+        </div>
+        <div class="hero-bg"></div>
+        <div class="hero-gradient"></div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section id="marketplace" class="marketplace">
+        <div class="container">
+            <div class="section-header">
+                <h2>Маркетплейс проектов SCALE</h2>
+                <p>Реальные проекты для партнёрства и масштабирования</p>
+            </div>
+
+            <div class="marketplace-projects" id="marketplaceProjects">
+                <!-- Projects will be populated by JavaScript -->
+            </div>
+
+            <!-- Add Project Section -->
+            <div class="add-project-section">
+                <div class="add-project-card">
+                    <div class="add-project-content">
+                        <h3>Добавить свой проект</h3>
+                        <p class="add-project-subtitle">Получите доступ к экосистеме SCALE и начните масштабироваться уже сегодня</p>
+                        
+                        <div class="benefits-list">
+                            <div class="benefit-item">
+                                <span class="benefit-icon">🌐</span>
+                                <span>Доступ к растущей экосистемы маркетологов , партнёров и инвесторов.</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="benefit-icon">🚀</span>
+                                <span>Операционная поддержка роста без стартовых вложений</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="benefit-icon">🤝</span>
+                                <span>Кросс-коллаборации с другими проектами экосистемы</span>
+                            </div>
+                            <div class="benefit-item">
+                                <span class="benefit-icon">🤖</span>
+                                <span>AI-инструменты и no-code решения для автоматизации</span>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--lg" onclick="openModal('addProjectModal')">
+                            Добавить проект
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section id="mission" class="mission">
+        <div class="container">
+            <div class="section-header">
+                <h2>Миссия SCALE 2044</h2>
+                <p>Решаем 100 мировых проблем через создание 100 технологических единорогов</p>
+            </div>
+            
+            <div class="mission-description">
+                <p>Мы строим экосистему, где инновационные проекты получают все необходимые ресурсы для масштабирования: от маркетинговой поддержки до венчурного финансирования.</p>
+            </div>
+
+            <div class="pillars-grid">
+                <div class="pillar-card">
+                    <div class="pillar-icon">🤝</div>
+                    <h3>Win-Win партнёрство</h3>
+                    <p>Оплата только с результата — ваш рост = наш рост</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">⚙️</div>
+                    <h3>Операционная поддержка</h3>
+                    <p>Полный цикл масштабирования с экспертной командой</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">🔗</div>
+                    <h3>Синергия проектов</h3>
+                    <p>Кросс-коллаборации и обмен лучшими практиками</p>
+                </div>
+                <div class="pillar-card">
+                    <div class="pillar-icon">⚡</div>
+                    <h3>Технологические решения</h3>
+                    <p>AI-автоматизация и no-code инструменты роста</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ecosystem Section -->
+    <section id="ecosystem" class="ecosystem">
+        <div class="container">
+            <div class="section-header">
+                <h2>Экосистема продуктов SCALE</h2>
+                <p>Четыре вертикали для комплексного масштабирования бизнеса</p>
+            </div>
+
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <div class="how-it-works-content">
+                <div class="how-it-works-header">
+                    <h2>Как мы работаем</h2>
+                    <p>Пятишаговый процесс для предсказуемого и быстрого роста вашего бизнеса.</p>
+                </div>
+                <div class="process-timeline">
+                    <div class="process-step">
+                        <div class="process-step-number">1</div>
+                        <div class="process-step-content">
+                            <h3>Формирование команды</h3>
+                            <p>Подбираем Growth-специалистов под ваши KPI.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-step-number">2</div>
+                        <div class="process-step-content">
+                            <h3>Поиск партнёров</h3>
+                            <p>Находим лидеров мнений и владельцев вашей целевой аудитории.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-step-number">3</div>
+                        <div class="process-step-content">
+                            <h3>Запуск продаж</h3>
+                            <p>Тестируем каналы и получаем первые сделки через партнёрства.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-step-number">4</div>
+                        <div class="process-step-content">
+                            <h3>Реинвестирование</h3>
+                            <p>Направляем часть прибыли на масштабирование успешных каналов.</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="process-step-number">5</div>
+                        <div class="process-step-content">
+                            <h3>Автоматизация</h3>
+                            <p>Внедряем AI и no-code для кратного роста без увеличения команды.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="cta-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Присоединяйтесь к экосистеме SCALE</h2>
+                <p>Выберите свою роль и начните масштабироваться уже сегодня</p>
+            </div>
+
+            <div class="cta-forms">
+                <div class="cta-card">
+                    <h3>Фаундерам</h3>
+                    <p>Масштабируйте свой проект без стартовых вложений</p>
+                    <button class="btn btn--primary btn--full-width" onclick="openModal('founderModal')">Подать заявку на скейлинг</button>
+                </div>
+                <div class="cta-card">
+                    <h3>Специалистам/Маркетологам</h3>
+                    <p>Работайте с растущими проектами за % от роста</p>
+                    <button class="btn btn--primary btn--full-width" onclick="contactCoordinator('specialist')">Связаться с координатором</button>
+                </div>
+                <div class="cta-card">
+                    <h3>Инвесторам</h3>
+                    <p>Увеличьте доходность портфеля в разы</p>
+                    <button class="btn btn--primary btn--full-width" onclick="openModal('investorModal')">Подключить Scale-Fund</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <h3>SCALE 2044</h3>
+                        <p>Экосистема масштабирования будущего</p>
+                    </div>
+                    
+                    <div class="footer-contact">
+                        <h4>Координатор проектов SCALE</h4>
+                        <a href="https://t.me/Artem_Liz" target="_blank" class="coordinator-link">
+                            <svg class="telegram-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                                <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm5.568 8.16c-.29 1.458-.154 2.815-.308 4.287-.156 1.472-.309 2.943-.463 4.414-.078.75-.156 1.5-.234 2.25-.058.558-.357.994-.915 1.071-.558.078-1.116-.165-1.415-.705-.299-.54-.299-1.2-.077-1.8.222-.6.666-1.14.666-1.8 0-.66-.444-1.2-.666-1.8-.222-.6-.222-1.26.077-1.8.299-.54.857-.783 1.415-.705.558.077.857.513.915 1.071.078.75.156 1.5.234 2.25.154 1.471.307 2.942.463 4.414.154 1.472.018 2.829.308 4.287-3.2-.64-5.76-3.52-6.24-7.04-.48-3.52 1.44-6.88 4.8-8.32 3.36-1.44 7.2-.48 9.6 2.24z"/>
+                            </svg>
+                            @Artem_Liz
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-mission">
+                    <p>Наша цель — создать 100 единорогов и решить 100 мировых проблем до 2044 года</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal('projectModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="modal-close" onclick="closeModal('projectModal')">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Project Modal -->
+    <div id="addProjectModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal('addProjectModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Заявка на добавление проекта</h3>
+                <button class="modal-close" onclick="closeModal('addProjectModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="addProjectForm" class="modal-form">
+                    <div class="form-group">
+                        <label class="form-label">Ваше имя *</label>
+                        <input type="text" name="name" class="form-control" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Название проекта *</label>
+                        <input type="text" name="project" class="form-control" placeholder="Название проекта" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telegram для связи *</label>
+                        <input type="text" name="telegram" class="form-control" placeholder="@username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Краткое описание проекта и текущие показатели *</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Опишите ваш проект, целевую аудиторию, текущую выручку/количество пользователей" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Условия партнёрства *</label>
+                        <textarea name="conditions" class="form-control" rows="3" placeholder="Предлагаемый % комиссии, какую поддержку готовы предоставить партнёрам" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Founder Modal -->
+    <div id="founderModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal('founderModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Заявка на скейлинг</h3>
+                <button class="modal-close" onclick="closeModal('founderModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="founderForm" class="modal-form">
+                    <div class="form-group">
+                        <label class="form-label">Ваше имя *</label>
+                        <input type="text" name="name" class="form-control" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Название проекта *</label>
+                        <input type="text" name="project" class="form-control" placeholder="Название проекта" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telegram *</label>
+                        <input type="text" name="telegram" class="form-control" placeholder="@username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Текущая выручка/месяц *</label>
+                        <input type="text" name="revenue" class="form-control" placeholder="100 000 руб/мес" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Краткое описание проекта *</label>
+                        <textarea name="description" class="form-control" rows="4" placeholder="Опишите ваш проект, бизнес-модель, целевую аудиторию" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Investor Modal -->
+    <div id="investorModal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal('investorModal')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Подключение к Scale-Fund</h3>
+                <button class="modal-close" onclick="closeModal('investorModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="investorForm" class="modal-form">
+                    <div class="form-group">
+                        <label class="form-label">Ваше имя *</label>
+                        <input type="text" name="name" class="form-control" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Фонд/Компания *</label>
+                        <input type="text" name="company" class="form-control" placeholder="Название фонда или компании" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telegram *</label>
+                        <input type="text" name="telegram" class="form-control" placeholder="@username" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">AUM или бюджет инвестиций *</label>
+                        <input type="text" name="aum" class="form-control" placeholder="$1M - $10M" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Интересующие отрасли и стадии *</label>
+                        <textarea name="interests" class="form-control" rows="3" placeholder="Например: B2B SaaS, EdTech, стадии Seed-Series A" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SCALE 2044 - Premium Landing Page JavaScript
+
+        // Data from application_data_json
+        const scaleData = {
+          hero: {
+            title: "Экосистема масштабирования будущего",
+            subtitle: "Создаём 100 единорогов к 2044 году через инновационные технологии и стратегические партнёрства",
+            stats: [
+              {value: "900", label: "Проектов в коллаборации к 2029"},
+              {value: "350", label: "Проектов на 5+ млн ₽ к 2029"},
+              {value: "100", label: "Единорогов к 2044 году"}
+            ]
+          },
+          marketplace: {
+            title: "Маркетплейс проектов SCALE",
+            subtitle: "Реальные проекты для партнёрства и масштабирования",
+            projects: [
+              {
+                id: 1,
+                title: "🎬 Контент-Завод",
+                subtitle: "AI-революция в видеопроизводстве",
+                description: "AI-платформа для автоматического создания видеоконтента с персонализированными аватарами, голосами и сценариями.",
+                metrics: {
+                  revenue: "1,450,000 руб/мес",
+                  commission: "30% первые 10 сделок"
+                },
+                advantages: [
+                  "Готовый масштабирующийся бизнес",
+                  "Топ-тренд AI-видео (рынок +300%/год)",
+                  "Высокие чеки от 200k руб",
+                  "Полная поддержка команды"
+                ],
+                gradient: "from-purple-500 to-pink-600"
+              },
+              {
+                id: 2,
+                title: "🚀 Кремакс",
+                subtitle: "No-Code платформа будущего",
+                description: "Визуальная все-в-одном платформа для быстрой разработки сайтов, веб-приложений и автоматизаций для бизнеса.",
+                metrics: {
+                  revenue: "1+ млн руб/мес",
+                  commission: "15-50% + 100% маржа с услуг"
+                },
+                advantages: [
+                  "Возможность стать частью core-команды",
+                  "100% маржа с собственных услуг",
+                  "No-code тренд захватывает рынок",
+                  "Экспертный статус и промо"
+                ],
+                gradient: "from-blue-500 to-cyan-600"
+              },
+              {
+                id: 3,
+                title: "🏠 MOSS-IN",
+                subtitle: "Недвижимость за рубежом",
+                description: "Партнёрская программа для риелторов РФ, специализирующаяся на продаже недвижимости за рубежом.",
+                metrics: {
+                  revenue: "$20,000/мес прибыль",
+                  commission: "25% прямые, 5% с партнёров"
+                },
+                advantages: [
+                  "Растущий тренд зарубежной недвижимости",
+                  "Высокомаржинальная ниша",
+                  "Возможность стать пионером",
+                  "Стабильный рынок недвижимости"
+                ],
+                gradient: "from-green-500 to-teal-600"
+              }
+            ]
+          },
+          ecosystem: {
+            products: [
+              {
+                name: "Scale-X",
+                title: "Для фаундеров",
+                description: "Масштабирование онлайн-продуктов без стартовых вложений. Рост x30-x500 за год с постоплатой.",
+                features: ["B2B SaaS скейлинг", "Маркетинговая фабрика", "Партнёрские коллаборации"],
+                icon: "🚀",
+                color: "blue"
+              },
+              {
+                name: "Scale-Cult",
+                title: "Для маркетологов",
+                description: "Сообщество топ-маркетологов для работы с растущими проектами за % от роста выручки.",
+                features: ["Экспертные команды", "Готовые методологии", "Доля в росте"],
+                icon: "👥",
+                color: "purple"
+              },
+              {
+                name: "Scale-Fund",
+                title: "Для инвесторов",
+                description: "Превращаем 1% инвестиций в x30-x500 рост через операционную поддержку портфеля.",
+                features: ["Smart-money + Scale-money", "Операционная поддержка", "Синергия портфеля"],
+                icon: "💰",
+                color: "green"
+              }
+            ]
+          },
+          contact: {
+            coordinator: "Координатор проектов SCALE",
+            telegram: "@Artem_Liz",
+            telegramUrl: "https://t.me/Artem_Liz",
+            mission: "Наша цель — создать 100 единорогов и решить 100 мировых проблем до 2044 года"
+          }
+        };
+
+        // Global functions - ensure they are properly attached to window object
+        window.scrollToMarketplace = function() {
+          const element = document.getElementById('marketplace');
+          if (element) {
+            const offsetTop = element.offsetTop - 80; // Account for fixed navbar
+            window.scrollTo({ 
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        };
+
+        window.scrollToEcosystem = function() {
+          const element = document.getElementById('ecosystem');
+          if (element) {
+            const offsetTop = element.offsetTop - 80; // Account for fixed navbar
+            window.scrollTo({ 
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        };
+
+        window.scrollToCTA = function() {
+          const element = document.getElementById('cta');
+          if (element) {
+            const offsetTop = element.offsetTop - 80; // Account for fixed navbar
+            window.scrollTo({ 
+              top: offsetTop,
+              behavior: 'smooth'
+            });
+          }
+        };
+
+        window.contactCoordinator = function(type) {
+          const messages = {
+            founder: 'Привет! Интересует масштабирование проекта через SCALE экосистему.',
+            specialist: 'Привет! Хочу работать с растущими проектами за % от роста.',
+            marketer: 'Привет! Хочу присоединиться к Scale-Cult и работать с растущими проектами.',
+            investor: 'Привет! Интересует Scale-Fund для увеличения доходности портфеля.',
+            captain: 'Привет! Хочу стать капитаном команды в проекте из экосистемы SCALE.',
+            participant: 'Привет! Хочу стать участником команды в проекте из экосистемы SCALE.'
+          };
+          
+          const message = encodeURIComponent(messages[type] || messages.founder);
+          const telegramUrl = `https://t.me/Artem_Liz?text=${message}`;
+          
+          // Open in new tab
+          window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+        };
+
+        window.joinAsRole = function(projectId, role) {
+          const project = scaleData.marketplace.projects.find(p => p.id === projectId);
+          let message = '';
+          
+          if (role === 'captain') {
+            message = `Привет! Хочу стать капитаном команды в проекте "${project ? project.title : 'SCALE'}" 🏆`;
+          } else {
+            message = `Привет! Хочу стать участником команды в проекте "${project ? project.title : 'SCALE'}" 🤝`;
+          }
+          
+          const encodedMessage = encodeURIComponent(message);
+          const telegramUrl = `https://t.me/Artem_Liz?text=${encodedMessage}`;
+          
+          window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+        };
+
+        window.openModal = function(modalId) {
+          const modal = document.getElementById(modalId);
+          if (modal) {
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+          }
+        };
+
+        window.closeModal = function(modalId) {
+          const modal = document.getElementById(modalId);
+          if (modal) {
+            modal.classList.add('hidden');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+          }
+        };
+
+        window.showProjectDetails = function(projectId) {
+          const project = scaleData.marketplace.projects.find(p => p.id === projectId);
+          if (!project) return;
+
+          const modal = document.getElementById('projectModal');
+          const title = document.getElementById('modalTitle');
+          const body = document.getElementById('modalBody');
+
+          if (!modal || !title || !body) return;
+
+          title.textContent = project.title;
+
+          body.innerHTML = `
+            <div class="project-modal-content">
+              <h4 class="project-modal-subtitle">${project.subtitle}</h4>
+              
+              <div class="project-modal-section">
+                <h5>📊 Ключевые метрики</h5>
+                <div class="metrics-grid">
+                  <div class="metric-card">
+                    <div class="metric-label">Выручка</div>
+                    <div class="metric-value">${project.metrics.revenue}</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-label">Комиссия</div>
+                    <div class="metric-value">${project.metrics.commission}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="project-modal-section">
+                <h5>🎯 Описание проекта</h5>
+                <p>${project.description}</p>
+              </div>
+
+              <div class="project-modal-section">
+                <h5>✨ Ключевые преимущества</h5>
+                <ul class="advantages-list">
+                  ${project.advantages.map(adv => `<li>${adv}</li>`).join('')}
+                </ul>
+              </div>
+
+              <div class="project-modal-section">
+                <h5>👥 Выберите роль в проекте</h5>
+                <div class="role-options">
+                  <div class="role-option">
+                    <div class="role-info">
+                      <span class="role-emoji">🏆</span>
+                      <span class="role-title">Капитан команды</span>
+                    </div>
+                    <button class="role-button" onclick="joinAsRole(${project.id}, 'captain'); closeModal('projectModal')">
+                      Стать капитаном
+                    </button>
+                  </div>
+                  <div class="role-option">
+                    <div class="role-info">
+                      <span class="role-emoji">🤝</span>
+                      <span class="role-title">Участник команды</span>
+                    </div>
+                    <button class="role-button" onclick="joinAsRole(${project.id}, 'participant'); closeModal('projectModal')">
+                      Стать участником
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="project-modal-actions">
+                <a href="https://t.me/Artem_Liz" target="_blank" rel="noopener noreferrer" class="btn btn--outline btn--full-width" onclick="closeModal('projectModal')">
+                  Связаться с координатором
+                </a>
+              </div>
+            </div>
+          `;
+
+          openModal('projectModal');
+        };
+
+        // Form submission handlers
+        function handleFormSubmission(formId, type) {
+          const form = document.getElementById(formId);
+          if (!form) return;
+
+          form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+              data[key] = value;
+            }
+            
+            // Create message for telegram
+            let message = '';
+            switch(type) {
+              case 'addProject':
+                message = `🚀 НОВАЯ ЗАЯВКА НА ДОБАВЛЕНИЕ ПРОЕКТА\n\n` +
+                         `👤 Имя: ${data.name}\n` +
+                         `📈 Проект: ${data.project}\n` +
+                         `📱 Telegram: ${data.telegram}\n` +
+                         `� Описание: ${data.description}\n` +
+                         `🤝 Условия партнёрства: ${data.conditions}`;
+                break;
+              case 'founder':
+                message = `🚀 НОВАЯ ЗАЯВКА НА СКЕЙЛИНГ\n\n` +
+                         `👤 Имя: ${data.name}\n` +
+                         `📈 Проект: ${data.project}\n` +
+                         `📱 Telegram: ${data.telegram}\n` +
+                         `💰 Выручка: ${data.revenue}\n` +
+                         `📝 Описание: ${data.description}`;
+                break;
+              case 'investor':
+                message = `💰 НОВАЯ ЗАЯВКА ИНВЕСТОРА\n\n` +
+                         `👤 Имя: ${data.name}\n` +
+                         `🏢 Компания: ${data.company}\n` +
+                         `📱 Telegram: ${data.telegram}\n` +
+                         `💼 AUM: ${data.aum}\n` +
+                         `🎯 Интересы: ${data.interests}`;
+                break;
+            }
+            
+            // Send to telegram
+            const encodedMessage = encodeURIComponent(message);
+            const telegramUrl = `https://t.me/Artem_Liz?text=${encodedMessage}`;
+            
+            // Open telegram and close modal
+            window.open(telegramUrl, '_blank', 'noopener,noreferrer');
+            
+            // Show success message and close modal
+            // We can't use alert, so we'll just log to console for this environment
+            console.log('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
+            
+            // Close modal and reset form
+            const modalId = form.closest('.modal').id;
+            closeModal(modalId);
+            form.reset();
+          });
+        }
+
+        // DOM Content Loaded
+        document.addEventListener('DOMContentLoaded', function() {
+          init();
+        });
+
+        function init() {
+          setupNavbar();
+          renderMarketplaceProjects();
+          renderProducts();
+          setupAnimations();
+          setupModalHandlers();
+          setupFormHandlers();
+          setupNavigationHandlers();
+          console.log('🚀 SCALE 2044 инициализирован успешно!');
+        }
+
+        // Setup navigation handlers
+        function setupNavigationHandlers() {
+          // Navigation links
+          document.addEventListener('click', (event) => {
+            const link = event.target.closest('.nav-link');
+            if (link) {
+              event.preventDefault();
+              const targetId = link.getAttribute('href').substring(1);
+              const targetElement = document.getElementById(targetId);
+              
+              if (targetElement) {
+                const offsetTop = targetElement.offsetTop - 80; // Account for fixed navbar
+                window.scrollTo({
+                  top: offsetTop,
+                  behavior: 'smooth'
+                });
+              }
+            }
+          });
+
+          // Ensure Telegram links open in new tab
+          document.addEventListener('click', (event) => {
+            const link = event.target.closest('a[href*="t.me"]');
+            if (link) {
+              event.preventDefault();
+              window.open(link.href, '_blank', 'noopener,noreferrer');
+            }
+          });
+        }
+
+        // Render marketplace projects
+        function renderMarketplaceProjects() {
+          const container = document.getElementById('marketplaceProjects');
+          if (!container) return;
+
+          container.innerHTML = scaleData.marketplace.projects.map(project => `
+            <div class="marketplace-project fade-in">
+              <div class="project-content">
+                <div class="project-info">
+                  <h3>${project.title}</h3>
+                  <p class="project-subtitle">${project.subtitle}</p>
+                  <p class="project-description">${project.description}</p>
+                  
+                  <ul class="project-advantages">
+                    ${project.advantages.map(adv => `<li>${adv}</li>`).join('')}
+                  </ul>
+                </div>
+                
+                <div class="project-metrics">
+                  <h4>📊 Ключевые метрики</h4>
+                  <div class="metric-item">
+                    <span class="metric-label">Выручка:</span>
+                    <span class="metric-value">${project.metrics.revenue}</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Комиссия:</span>
+                    <span class="metric-value">${project.metrics.commission}</span>
+                  </div>
+                  
+                  <div class="project-action">
+                    <button class="btn btn--primary btn--full-width" onclick="showProjectDetails(${project.id})">
+                      Подробнее о проекте
+                    </button>
+                  </div>
+
+                  <div class="project-roles">
+                    <h5>👥 Выберите роль в проекте</h5>
+                    <div class="role-options">
+                      <div class="role-option">
+                        <div class="role-info">
+                          <span class="role-emoji">🏆</span>
+                          <span class="role-title">Капитан команды</span>
+                        </div>
+                        <button class="role-button" onclick="joinAsRole(${project.id}, 'captain')">
+                          Стать капитаном
+                        </button>
+                      </div>
+                      <div class="role-option">
+                        <div class="role-info">
+                          <span class="role-emoji">🤝</span>
+                          <span class="role-title">Участник команды</span>
+                        </div>
+                        <button class="role-button" onclick="joinAsRole(${project.id}, 'participant')">
+                          Стать участником
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        // Render ecosystem products
+        function renderProducts() {
+          const grid = document.getElementById('productsGrid');
+          if (!grid) return;
+
+          grid.innerHTML = scaleData.ecosystem.products.map(product => `
+            <div class="product-card fade-in">
+              <div class="product-header">
+                <div class="product-icon">${product.icon}</div>
+                <div>
+                  <h3 class="product-title">${product.name}</h3>
+                  <p class="product-subtitle">${product.title}</p>
+                </div>
+              </div>
+              <p class="product-description">${product.description}</p>
+              <ul class="product-features">
+                ${product.features.map(feature => `<li>${feature}</li>`).join('')}
+              </ul>
+            </div>
+          `).join('');
+        }
+
+        // Setup form handlers
+        function setupFormHandlers() {
+          // Setup all form submission handlers
+          handleFormSubmission('addProjectForm', 'addProject');
+          handleFormSubmission('founderForm', 'founder');
+          handleFormSubmission('investorForm', 'investor');
+        }
+
+        // Setup navbar scroll effect
+        function setupNavbar() {
+          const navbar = document.querySelector('.navbar');
+          
+          if (!navbar) return;
+          
+          let lastScrollY = window.scrollY;
+          let ticking = false;
+          
+          function updateNavbar() {
+            const currentScrollY = window.scrollY;
+            
+            // Change background based on scroll
+            if (currentScrollY > 10) {
+              navbar.style.background = 'rgba(252, 252, 249, 0.85)';
+              navbar.style.boxShadow = '0 4px 20px rgba(0, 65, 179, 0.1)';
+            } else {
+              navbar.style.background = 'var(--color-background)';
+              navbar.style.boxShadow = 'none';
+            }
+            
+            // Hide/show navbar on scroll
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+              navbar.style.transform = 'translateY(-100%)';
+            } else {
+              navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollY = currentScrollY;
+            ticking = false;
+          }
+          
+          function requestNavbarUpdate() {
+            if (!ticking) {
+              requestAnimationFrame(updateNavbar);
+              ticking = true;
+            }
+          }
+          
+          window.addEventListener('scroll', requestNavbarUpdate, { passive: true });
+        }
+
+        // Setup scroll animations
+        function setupAnimations() {
+          const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+          };
+
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+              if (entry.isIntersecting) {
+                entry.target.style.animationDelay = `${index * 0.1}s`;
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target); // Stop observing once animated
+              }
+            });
+          }, observerOptions);
+
+          // Observe elements after a short delay to ensure they're rendered
+          setTimeout(() => {
+            const animatedElements = document.querySelectorAll(
+              '.product-card, .marketplace-project, .pillar-card, .stat-card, .cta-card, .process-step'
+            );
+            
+            animatedElements.forEach(el => {
+              observer.observe(el);
+            });
+          }, 100);
+
+          // Parallax effect for hero section
+          let parallaxTicking = false;
+          
+          function updateParallax() {
+            const scrolled = window.pageYOffset;
+            const heroGradient = document.querySelector('.hero-gradient');
+            
+            if (heroGradient && scrolled < window.innerHeight) {
+              heroGradient.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+            
+            parallaxTicking = false;
+          }
+          
+          function requestParallaxUpdate() {
+            if (!parallaxTicking) {
+              requestAnimationFrame(updateParallax);
+              parallaxTicking = true;
+            }
+          }
+          
+          window.addEventListener('scroll', requestParallaxUpdate, { passive: true });
+        }
+
+        // Setup modal handlers
+        function setupModalHandlers() {
+          // Close modal when clicking outside
+          document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal-overlay')) {
+              const modal = event.target.closest('.modal');
+              if (modal) {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+              }
+            }
+          });
+
+          // Handle escape key
+          document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+              const openModals = document.querySelectorAll('.modal:not(.hidden)');
+              openModals.forEach(modal => {
+                modal.classList.add('hidden');
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+              });
+            }
+          });
+        }
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+          document.body.classList.add('loaded');
+          
+          // Animate hero stats with counter effect
+          const statNumbers = document.querySelectorAll('.stat-number');
+          statNumbers.forEach((stat, index) => {
+            const finalValue = stat.textContent;
+            let currentValue = 0;
+            const isNumeric = !isNaN(parseInt(finalValue));
+            
+            if (isNumeric) {
+              const targetValue = parseInt(finalValue);
+              const increment = targetValue / 30;
+              
+              const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                  stat.textContent = finalValue;
+                  clearInterval(timer);
+                } else {
+                  stat.textContent = Math.floor(currentValue);
+                }
+              }, 50 + (index * 20));
+            }
+          });
+        });
+
+        // Performance optimization: Debounce function
+        function debounce(func, wait) {
+          let timeout;
+          return function executedFunction(...args) {
+            const later = () => {
+              clearTimeout(timeout);
+              func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+          };
+        }
+
+        // Initialize everything when DOM is ready
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', init);
+        } else {
+          init();
+        }
+
+        console.log('🚀 SCALE 2044 лендинг загружен успешно!');
+        console.log('💡 Готовы создать 100 единорогов к 2044 году?');
+    </script>
+</body>
+</html>
+�
